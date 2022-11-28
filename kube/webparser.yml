@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webparser
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webparser
+  template:
+    metadata:
+      labels:
+        app: webparsers
+    spec:
+      containers:
+        - name: app
+          image: ozenero/web-parser:1.0.0
+          ports:
+            - containerPort: 9000
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webparser
+spec:
+  selector:
+    app: webparser
+  ports:
+    - port: 9000
+      targetPort: 9000
+  type: ClusterIP
